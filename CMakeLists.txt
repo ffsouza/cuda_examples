@@ -2,11 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 project(cuda_exemples)
 
 find_package(CUDA)
-
 include(FindCUDA)
 
-file(GLOB SOURCES "*.cu" "*.cpp" "*.c" "*.h")
-CUDA_ADD_EXECUTABLE(cuda_info ${SOURCES})
+CUDA_ADD_EXECUTABLE(cuda_info cuda_info.cu)
+CUDA_ADD_EXECUTABLE(vector_sum vector_sum.cu)
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall")
 
