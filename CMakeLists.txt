@@ -1,11 +1,22 @@
 cmake_minimum_required(VERSION 2.8)
 project(cuda_exemples)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_scripts/  ${CMAKE_MODULE_PATH})
 
 find_package(CUDA)
 include(FindCUDA)
 
+find_package ( SOIL REQUIRED )
+include_directories(${SOIL_INCLUDE_DIR})
+
+set (LIBRARIES ${SOIL_LIBRARIES})
+#set (LIBRARIES ${GLEW_LIBRARY} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES} ${SFML_LIBRARIES} ${GLM_LIBRARIES})
+
 CUDA_ADD_EXECUTABLE(cuda_info cuda_info.cu)
+
 CUDA_ADD_EXECUTABLE(vector_sum vector_sum.cu)
+
+CUDA_ADD_EXECUTABLE(julia_set julia_set.cu)
+TARGET_LINK_LIBRARIES(julia_set ${LIBRARIES})
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall")
 
