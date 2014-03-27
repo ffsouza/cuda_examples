@@ -43,7 +43,7 @@ __global__ void kernel(unsigned char *ptr)
     int x = blockIdx.x;
     int y = blockIdx.y;
 
-    int offset = x + y * DIM;
+    int offset = x + y * gridDim.x;
 
     int julia_value = julia(x,y);
 

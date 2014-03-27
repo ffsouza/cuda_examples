@@ -15,6 +15,8 @@ CUDA_ADD_EXECUTABLE(cuda_info cuda_info.cu)
 
 CUDA_ADD_EXECUTABLE(vector_sum vector_sum.cu)
 
+CUDA_ADD_EXECUTABLE(vector_sum_thread vector_sum_thread.cu)
+
 CUDA_ADD_EXECUTABLE(julia_set julia_set.cu)
 TARGET_LINK_LIBRARIES(julia_set ${LIBRARIES})
 
