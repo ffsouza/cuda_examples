@@ -33,10 +33,10 @@ CUDA_ADD_EXECUTABLE(julia_set julia_set.cu)
 TARGET_LINK_LIBRARIES(julia_set ${LIBRARIES})
 
 CUDA_ADD_EXECUTABLE(ripple_animation ripple_animation.cu)
-TARGET_LINK_LIBRARIES(ripple_animation ${GLUT_INCLUDE_PATH} ${OPENGL_LIBRARIES} ${CUDA_LIBRARIES})
+TARGET_LINK_LIBRARIES(ripple_animation ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES} ${CUDA_LIBRARIES})
 
 
-list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall -lm")
+list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall -pthread")
 list(APPEND CUDA_NVCC_FLAGS --ptxas-options=-v --compiler-options -fno-strict-aliasing -lineinfo -use_fast_math -Xptxas -dlcm=cg)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_20,code=sm_20)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_30,code=sm_30)
