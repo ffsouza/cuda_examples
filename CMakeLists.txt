@@ -8,7 +8,19 @@ include(FindCUDA)
 find_package ( SOIL REQUIRED )
 include_directories(${SOIL_INCLUDE_DIR})
 
-set (LIBRARIES ${SOIL_LIBRARIES})
+# OpenGL
+find_package(OpenGL)
+include_directories(${OPENGL_INCLUDE_DIR})
+
+# GLEW
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_PATH})
+
+# Glut
+find_package(GLUT REQUIRED)
+include_directories(${GLUT_INCLUDE_PATH})
+
+set (LIBRARIES ${SOIL_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} ${GLUT_INCLUDE_PATH})
 #set (LIBRARIES ${GLEW_LIBRARY} ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES} ${SOIL_LIBRARIES} ${SFML_LIBRARIES} ${GLM_LIBRARIES})
 
 CUDA_ADD_EXECUTABLE(cuda_info cuda_info.cu)
@@ -20,9 +32,12 @@ CUDA_ADD_EXECUTABLE(vector_sum_thread vector_sum_thread.cu)
 CUDA_ADD_EXECUTABLE(julia_set julia_set.cu)
 TARGET_LINK_LIBRARIES(julia_set ${LIBRARIES})
 
-list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall")
+CUDA_ADD_EXECUTABLE(ripple_animation ripple_animation.cu)
+TARGET_LINK_LIBRARIES(ripple_animation ${GLUT_INCLUDE_PATH} ${OPENGL_LIBRARIES} ${CUDA_LIBRARIES})
 
-list(APPEND CUDA_NVCC_FLAGS --compiler-options -fno-strict-aliasing -lineinfo -use_fast_math -Xptxas -dlcm=cg)
+
+list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall -lm")
+list(APPEND CUDA_NVCC_FLAGS --ptxas-options=-v --compiler-options -fno-strict-aliasing -lineinfo -use_fast_math -Xptxas -dlcm=cg)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_20,code=sm_20)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_30,code=sm_30)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_35,code=sm_35)
