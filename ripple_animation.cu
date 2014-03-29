@@ -2,7 +2,7 @@
 #include "headers_cuda_by_example/book.h"
 #include "headers_cuda_by_example/cpu_anim.h"
 
-#define DIM 512
+#define DIM 768
 #define PI 3.1415926535897932f
 
 struct DataBlock
@@ -50,6 +50,7 @@ int main(void)
 {
     DataBlock data;
     CPUAnimBitmap bitmap(DIM, DIM, &data);
+    data.bitmap = &bitmap;
 
     cudaMalloc((void**)&data.dev_bitmap, bitmap.image_size());
 
