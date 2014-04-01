@@ -37,6 +37,8 @@ TARGET_LINK_LIBRARIES(ripple_animation ${LIBRARIES})
 
 CUDA_ADD_EXECUTABLE(dot_product_shared_memory dot_product_shared_memory.cu)
 
+CUDA_ADD_EXECUTABLE(image_shared_memory image_shared_memory.cu)
+TARGET_LINK_LIBRARIES(image_shared_memory ${LIBRARIES})
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall -pthread")
 list(APPEND CUDA_NVCC_FLAGS --ptxas-options=-v --compiler-options -fno-strict-aliasing -lineinfo -use_fast_math -Xptxas -dlcm=cg)
