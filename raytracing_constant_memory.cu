@@ -21,8 +21,8 @@ struct Sphere
 
         if(dx*dx + dy*dy < radius * radius)
         {
-            float dz = sqrt(radius*radius - dx * dx - dy * dy);
-            *n = dz/sqrt(radius*radius);
+            float dz = sqrtf(radius*radius - dx * dx - dy * dy);
+            *n = dz/sqrtf(radius*radius);
             return dz + z;
         } 
         return -INF;
@@ -93,9 +93,9 @@ int main(void)
         temp_s[i].r = rnd(1.0f);
         temp_s[i].g = rnd(1.0f);
         temp_s[i].b = rnd(1.0f);
-        temp_s[i].x = rnd(-1000.0f) - 500;
-        temp_s[i].y = rnd(-1000.0f) - 500;
-        temp_s[i].z = rnd(-1000.0f) - 500;
+        temp_s[i].x = rnd(1000.0f) - 500;
+        temp_s[i].y = rnd(1000.0f) - 500;
+        temp_s[i].z = rnd(1000.0f) - 500;
         temp_s[i].radius = rnd(100.0f) + 20;
     }
 
