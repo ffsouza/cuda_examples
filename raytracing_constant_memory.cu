@@ -2,11 +2,10 @@
 #include "headers_cuda_by_example/book.h"
 #include "headers_cuda_by_example/cpu_bitmap.h"
 
-#define DIM 1000
+#define DIM 1024
 #define INF 2e10f
-#define SPHERES 20
+#define SPHERES 30
 #define rnd(x) (x*rand()/RAND_MAX)
-
 
 struct Sphere
 {
@@ -53,9 +52,9 @@ __global__ void kernel(Sphere *s, unsigned char *ptr)
         if(t > maxz)
         {
             float fscale = n;
-            r = s[i].r = fscale;
-            g = s[i].g = fscale;
-            b = s[i].b = fscale;
+            r = s[i].r * fscale;
+            g = s[i].g * fscale;
+            b = s[i].b * fscale;
             maxz = t;
  
         }
@@ -80,13 +79,14 @@ int main(void)
     cudaEventCreate(&stop);
     cudaEventRecord(start,0);
 
-    CPUBitmap bitmap(DIM,DIM);
     unsigned char *dev_pixels;
+    CPUBitmap bitmap(DIM,DIM, &dev_pixels);
     
     cudaMalloc((void**)&dev_pixels, bitmap.image_size());
     cudaMalloc((void**)&s, sizeof(Sphere)*SPHERES);
 
     Sphere *temp_s = (Sphere*)malloc(sizeof(Sphere)*SPHERES);
+
 
     for(int i=0; i < SPHERES; i++)
     {
