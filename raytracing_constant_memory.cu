@@ -30,7 +30,12 @@ struct Sphere
 };
 
 
-__global__ void kernel(Sphere *s, unsigned char *ptr)
+//--------- to use constant memory ---
+__constant__ Sphere s[SPHERES];
+//------------------------------------
+
+//__global__ void kernel(Sphere *s, unsigned char *ptr)
+__global__ void kernel(unsigned char *ptr)
 {
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
@@ -67,11 +72,10 @@ __global__ void kernel(Sphere *s, unsigned char *ptr)
 }
 
 
-
 int main(void)
 {
 
-    Sphere *s;
+    //Sphere *s;
 
     cudaEvent_t start, stop;
 
@@ -99,12 +103,19 @@ int main(void)
         temp_s[i].radius = rnd(100.0f) + 20;
     }
 
-    cudaMemcpy(s, temp_s, sizeof(Sphere)*SPHERES, cudaMemcpyHostToDevice);
+
+    //cudaMemcpy(s, temp_s, sizeof(Sphere)*SPHERES, cudaMemcpyHostToDevice);
+    
+    //-------- to use constant memory ------------
+    cudaMemcpyToSymbol(s, temp_s, sizeof(Sphere)*SPHERES);
+    //--------------------------------------------
+
 
     dim3 grids(DIM/16,DIM/16);
     dim3 threads(16,15);
 
-    kernel<<<grids,threads>>>(s, dev_pixels);
+    //kernel<<<grids,threads>>>(s, dev_pixels);
+    kernel<<<grids,threads>>>(dev_pixels);
 
     cudaMemcpy(bitmap.get_ptr(), dev_pixels, bitmap.image_size(), cudaMemcpyDeviceToHost);
 
