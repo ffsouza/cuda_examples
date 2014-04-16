@@ -77,12 +77,6 @@ int main(void)
 
     //Sphere *s;
 
-    cudaEvent_t start, stop;
-
-    cudaEventCreate(&start);
-    cudaEventCreate(&stop);
-    cudaEventRecord(start,0);
-
     unsigned char *dev_pixels;
     CPUBitmap bitmap(DIM,DIM, &dev_pixels);
     
@@ -103,7 +97,13 @@ int main(void)
         temp_s[i].radius = rnd(100.0f) + 20;
     }
 
+    //cuda event -- mesuare time
+    cudaEvent_t start, stop;
 
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start,0);
+    
     //cudaMemcpy(s, temp_s, sizeof(Sphere)*SPHERES, cudaMemcpyHostToDevice);
     
     //-------- to use constant memory ------------
@@ -119,8 +119,17 @@ int main(void)
 
     cudaMemcpy(bitmap.get_ptr(), dev_pixels, bitmap.image_size(), cudaMemcpyDeviceToHost);
 
-    bitmap.display_and_exit();
+    cudaEventRecord(stop,0);
+    cudaEventSynchronize(stop);
 
+    float elapsed_time;
+    
+    cudaEventElapsedTime(&elapsed_time, start, stop);
+
+    printf("Elapsed GPU time: %3.1f ms\n", elapsed_time);
+
+
+    bitmap.display_and_exit();
     cudaFree(dev_pixels);
     cudaFree(s);
 
