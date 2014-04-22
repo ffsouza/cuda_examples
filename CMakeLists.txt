@@ -43,6 +43,9 @@ TARGET_LINK_LIBRARIES(image_shared_memory ${LIBRARIES})
 CUDA_ADD_EXECUTABLE(raytracing_constant_memory raytracing_constant_memory.cu)
 TARGET_LINK_LIBRARIES(raytracing_constant_memory ${LIBRARIES})
 
+CUDA_ADD_EXECUTABLE(heat_transfer_texture_memory heat_transfer_texture_memory.cu)
+TARGET_LINK_LIBRARIES(heat_transfer_texture_memory ${LIBRARIES})
+
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -O3 -ffast-math -Wall -pthread")
 list(APPEND CUDA_NVCC_FLAGS --ptxas-options=-v --compiler-options -fno-strict-aliasing -lineinfo -use_fast_math -Xptxas -dlcm=cg)
 list(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_20,code=sm_20)
