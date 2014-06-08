@@ -34,31 +34,37 @@ int main()
             printf("Enabled\n");
         else
             printf("Disabled\n");
-
-    printf("\t---Memory Information---\n");
-    printf("\tTotal global memory: %ld bytes\n",prop.totalGlobalMem);
-    printf("\tTotal const memory: %ld bytes\n",prop.totalConstMem);
-    printf("\tMax memory pitch: %ld bytes\n",prop.memPitch);
-    printf("\tTexture alignment: %ld bytes\n",prop.textureAlignment);
     
-    printf("\t---Multiprocessor Information---\n");
-    printf("\tMultiprocessor count: %d\n",prop.multiProcessorCount);
-    printf("\tShared memory per multiprocessor: %ld bytes\n",prop.sharedMemPerBlock);
-    printf("\tRegisters per multiprocessor: %d\n",prop.regsPerBlock);
-    printf("\tThreads in warp:: %d\n",prop.warpSize);
-    printf("\tMax thread dimensions: %d, %d, %d\n",prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2]);
-    printf("\tMax grid dimensions: %d, %d, %d\n",prop.maxGridSize[0], prop.maxGridSize[1],prop.maxGridSize[2] );
-    printf("\tMax texture 1D dimensions: %d\n",prop.maxTexture1D);
-    printf("\tMax texture 2D dimensions: %d,%d\n",prop.maxTexture2D[0], prop.maxTexture2D[1]);
-    printf("\tMax texture 3D dimensions: %d,%d,%d\n",prop.maxTexture3D[0], prop.maxTexture3D[1], prop.maxTexture3D[2]);
+        printf("\tZero copy supported (cudaHostAllocMapped): ");
+        if(prop.canMapHostMemory)
+            printf("Yes\n");
+        else
+            printf("Not\n"); 
     
-    printf("\tConcurrent kernels: "); 
-    if(prop.concurrentKernels)
-        printf("Enabled\n");
-    else
-        printf("Disabled\n");
+        printf("\t---Memory Information---\n");
+        printf("\tTotal global memory: %ld bytes\n",prop.totalGlobalMem);
+        printf("\tTotal const memory: %ld bytes\n",prop.totalConstMem);
+        printf("\tMax memory pitch: %ld bytes\n",prop.memPitch);
+        printf("\tTexture alignment: %ld bytes\n",prop.textureAlignment);
+        
+        printf("\t---Multiprocessor Information---\n");
+        printf("\tMultiprocessor count: %d\n",prop.multiProcessorCount);
+        printf("\tShared memory per multiprocessor: %ld bytes\n",prop.sharedMemPerBlock);
+        printf("\tRegisters per multiprocessor: %d\n",prop.regsPerBlock);
+        printf("\tThreads in warp:: %d\n",prop.warpSize);
+        printf("\tMax thread dimensions: %d, %d, %d\n",prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2]);
+        printf("\tMax grid dimensions: %d, %d, %d\n",prop.maxGridSize[0], prop.maxGridSize[1],prop.maxGridSize[2] );
+        printf("\tMax texture 1D dimensions: %d\n",prop.maxTexture1D);
+        printf("\tMax texture 2D dimensions: %d,%d\n",prop.maxTexture2D[0], prop.maxTexture2D[1]);
+        printf("\tMax texture 3D dimensions: %d,%d,%d\n",prop.maxTexture3D[0], prop.maxTexture3D[1], prop.maxTexture3D[2]);
+        
+        printf("\tConcurrent kernels: "); 
+        if(prop.concurrentKernels)
+            printf("Enabled\n");
+        else
+            printf("Disabled\n");
 
-    printf("\n");
+        printf("\n");
     }
 
     int c;
